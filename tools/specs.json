@@ -1,0 +1,322 @@
+[
+{
+"id": "cz-okres",
+"src": [
+{
+"lang": "cs",
+"cat": "Kategorie:Okresy v Česku"
+}
+]
+},
+{
+"id": "sk-okres",
+"src": [
+{
+"lang": "sk",
+"cat": "Kategória:Okresy na Slovensku"
+}
+]
+},
+{
+"id": "mesto",
+"src": [
+{
+"lang": "cs",
+"list": "Seznam měst v Česku"
+}
+]
+},
+{
+"id": "sk-mesto",
+"src": [
+{
+"lang": "sk",
+"list": "Zoznam miest na Slovensku"
+}
+]
+},
+{
+"id": "cz-hrad",
+"src": [
+{
+"lang": "cs",
+"cat": "Kategorie:Hrady v Česku",
+"depth": 2
+}
+]
+},
+{
+"id": "cz-zamek",
+"src": [
+{
+"lang": "cs",
+"cat": "Kategorie:Zámky v Česku",
+"depth": 2
+}
+]
+},
+{
+"id": "cz-voda",
+"src": [
+{
+"lang": "cs",
+"cat": "Kategorie:Rybníky v Česku",
+"depth": 2
+},
+{
+"lang": "cs",
+"cat": "Kategorie:Přehradní nádrže v Česku",
+"depth": 2
+},
+{
+"lang": "cs",
+"cat": "Kategorie:Jezera v Česku",
+"depth": 1
+}
+]
+},
+{
+"id": "pohori",
+"src": [
+{
+"lang": "cs",
+"cat": "Kategorie:Pohoří v Česku",
+"depth": 1
+},
+{
+"lang": "sk",
+"cat": "Kategória:Pohoria na Slovensku",
+"depth": 1
+}
+]
+},
+{
+"id": "sk-reka",
+"src": [
+{
+"lang": "sk",
+"cat": "Kategória:Rieky na Slovensku",
+"depth": 1
+}
+]
+},
+{
+"id": "reka",
+"src": [
+{
+"lang": "cs",
+"cat": "Kategorie:Řeky v Česku",
+"depth": 1
+}
+]
+},
+{
+"id": "hora",
+"src": [
+{
+"lang": "cs",
+"cat": "Kategorie:Hory a kopce v Česku",
+"depth": 1
+}
+]
+},
+{
+"id": "sk-vrch",
+"src": [
+{
+"lang": "sk",
+"cat": "Kategória:Vrchy na Slovensku",
+"depth": 1
+}
+]
+},
+{
+"id": "praha",
+"src": [
+{
+"lang": "cs",
+"cat": "Kategorie:Části Prahy",
+"depth": 0
+}
+]
+},
+{
+"id": "lazne",
+"src": [
+{
+"lang": "cs",
+"cat": "Kategorie:Lázně v Česku",
+"depth": 1
+},
+{
+"lang": "sk",
+"cat": "Kategória:Kúpele na Slovensku",
+"depth": 1
+}
+]
+},
+{
+"id": "vecernicek-serial",
+"src": [
+{
+"lang": "cs",
+"cat": "Kategorie:Večerníčky"
+}
+]
+},
+{
+"id": "film",
+"src": [
+{
+"lang": "cs",
+"cat": "Kategorie:České filmové komedie"
+},
+{
+"lang": "cs",
+"cat": "Kategorie:Československé filmové komedie"
+}
+]
+},
+{
+"id": "pohadka",
+"src": [
+{
+"lang": "cs",
+"cat": "Kategorie:České pohádkové filmy"
+},
+{
+"lang": "cs",
+"cat": "Kategorie:Československé pohádkové filmy"
+},
+{
+"lang": "sk",
+"cat": "Kategória:Slovenské rozprávkové filmy"
+}
+]
+},
+{
+"id": "serial",
+"src": [
+{
+"lang": "cs",
+"cat": "Kategorie:České televizní seriály",
+"depth": 0
+},
+{
+"lang": "sk",
+"cat": "Kategória:Slovenské televízne seriály",
+"depth": 0
+}
+]
+},
+{
+"id": "herec",
+"src": [
+{
+"lang": "cs",
+"cat": "Kategorie:Čeští filmoví herci"
+},
+{
+"lang": "sk",
+"cat": "Kategória:Slovenskí filmoví herci"
+}
+]
+},
+{
+"id": "cimrman",
+"src": [
+{
+"lang": "cs",
+"cat": "Kategorie:Hry Divadla Járy Cimrmana"
+}
+]
+},
+{
+"id": "hokejista",
+"src": [
+{
+"lang": "cs",
+"cat": "Kategorie:Čeští lední hokejisté"
+},
+{
+"lang": "sk",
+"cat": "Kategória:Slovenskí hokejisti"
+}
+]
+},
+{
+"id": "rapper",
+"src": [
+{
+"lang": "cs",
+"cat": "Kategorie:Čeští rappeři"
+},
+{
+"lang": "sk",
+"cat": "Kategória:Slovenskí raperi"
+}
+]
+},
+{
+"id": "skupina",
+"src": [
+{
+"lang": "cs",
+"cat": "Kategorie:České hudební skupiny",
+"depth": 0
+},
+{
+"lang": "sk",
+"cat": "Kategória:Slovenské hudobné skupiny",
+"depth": 0
+}
+]
+},
+{
+"id": "youtuber",
+"src": [
+{
+"lang": "cs",
+"cat": "Kategorie:Čeští youtubeři"
+},
+{
+"lang": "sk",
+"cat": "Kategória:Slovenskí youtuberi"
+}
+]
+},
+{
+"id": "interpret",
+"src": [
+{
+"lang": "cs",
+"cat": "Kategorie:Čeští zpěváci"
+},
+{
+"lang": "sk",
+"cat": "Kategória:Slovenskí speváci"
+}
+]
+},
+{
+"id": "politik",
+"src": [
+{
+"lang": "cs",
+"cat": "Kategorie:Předsedové vlád České republiky"
+},
+{
+"lang": "cs",
+"cat": "Kategorie:Prezidenti České republiky"
+},
+{
+"lang": "sk",
+"cat": "Kategória:Predsedovia vlád Slovenska"
+},
+{
+"lang": "sk",
+"cat": "Kategória:Prezidenti Slovenska"
+}
+]
+}
+]

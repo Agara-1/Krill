@@ -134,9 +134,9 @@ const byId = id => CATS.find(c => c.id === id);
 const MODES = {
   mix:  { label: 'Mix', title: 'Denní ponor', blurb: 'Všehochuť: zvířata, barvy, prohlížeče, prvky a další.',
           cats: CATS.filter(c => !c.pack) },
-  geo:  { label: 'Zeměpis', title: 'Zeměpisný ponor', blurb: 'Státy, ostrovy, hory, moře, řeky a města z celého světa i od nás.',
+  geo:  { label: 'Zeměpis', title: 'Zeměpisný ponor', blurb: 'Hlavně Česko a Slovensko: okresy, hrady, zámky, rybníky, pohoří, řeky, lázně, části Prahy. K tomu kousek světa.',
           cats: CATS.filter(c => c.pack === 'geo').concat(['eu-mimo', 'mesto-hl', 'reka', 'hora', 'mesto'].map(byId)) },
-  meme: { label: 'Memes CZ/SK', title: 'Memový ponor', blurb: 'Večerníčky, filmové hlášky, pohádky, dobroty, politici, youtubeři a slovenčina.',
+  meme: { label: 'Memes CZ/SK', title: 'Memový ponor', blurb: 'Večerníčky, seriály, herci, hokejisté, rappeři, kapely, Cimrman, filmy, pohádky, dobroty a slovenčina.',
           cats: CATS.filter(c => c.pack === 'meme') },
 };
 const MODE_KEYS = Object.keys(MODES);
