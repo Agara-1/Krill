@@ -110,6 +110,21 @@ body::after {
 .btn:focus-visible, .input:focus-visible, .log-col:focus-visible { outline: 2px dashed var(--cyan); outline-offset: 3px; }
 .btn.ghost { border-color: var(--panel-edge); }
 
+/* karty režimů */
+.modes { display: flex; gap: 6px; }
+.mode-tab {
+  flex: 1 1 0; min-width: 0;
+  font-family: var(--font-display); font-size: 9px; line-height: 1.5;
+  padding: 10px 6px; cursor: pointer; color: var(--muted);
+  background: rgba(16, 58, 96, 0.6); border: 2px solid var(--panel-edge); border-bottom-width: 4px;
+  display: flex; align-items: center; justify-content: center; gap: 6px; text-align: center;
+}
+.mode-tab[aria-selected="true"] { color: #021018; background: var(--cyan); border-color: var(--cyan); box-shadow: 0 0 12px rgba(127, 249, 255, 0.4); }
+.mode-tab:focus-visible { outline: 2px dashed var(--cyan); outline-offset: 2px; }
+.mode-done { font-family: var(--font-body); font-size: 18px; color: #7af5d8; }
+.mode-tab[aria-selected="true"] .mode-done { color: #0b5b4c; }
+.mode-blurb { margin: 0; color: var(--cyan); }
+
 /* otázka */
 .progress { display: flex; gap: 6px; justify-content: center; }
 .pip { width: 26px; height: 8px; background: #1b4d73; border: 1px solid var(--panel-edge); }

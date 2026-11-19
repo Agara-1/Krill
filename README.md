@@ -9,6 +9,13 @@ Denní vědomostní „anti-kvíz“ do prohlížeče. Nevyhrává nejčastějš
 - Neplatná odpověď kolo neukončí, můžeš zkoušet dál. Kolo uzavře první platná odpověď nebo konec času.
 - Hra toleruje diakritiku, velká a malá písmena i drobné překlepy.
 
+## Karty
+
+Hra má tři karty. Každá má vlastní denní ponor a ukládá si vlastní výsledek:
+- **Mix**: všehochuť z 21 kategorií,
+- **Zeměpis**: státy Afriky, Asie a Jižní Ameriky, ostrovy, hory, moře, řeky a česká a slovenská města (13 kategorií),
+- **Memes CZ/SK**: večerníčky, filmové hlášky, pohádky, kultovní dobroty, slovenská slova, politici z memů, youtubeři a interpreti (8 kategorií).
+
 ## Bodování
 
 | Úlovek | Body | Odpověď |
@@ -39,7 +46,8 @@ Hra běží čistě v prohlížeči bez serveru. Podíly odpovědí a rozložen�
 
 - `index.html`, `style.css`: stránka a retro CRT vzhled
 - `app.js`: logika hry, bodování, grafy a deník ponoru
-- `data.js`: 21 kategorií s platnými odpověďmi (přidávat se dají snadno)
+- `data.js`: 21 kategorií karty Mix s platnými odpověďmi
+- `packs.js`: kategorie karet Zeměpis a Memes CZ/SK
 - `schody/`: předchozí hra Krill Tower (běhání po schodech mrakodrapu)
 
 Spuštění: otevři `index.html` v prohlížeči.

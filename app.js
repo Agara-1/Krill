@@ -123,12 +123,26 @@ function today() {
   const mid = new Date(now.getFullYear(), now.getMonth(), now.getDate());
   return Math.round((mid - EPOCH) / 864e5);
 }
-function makeDive(dayNo, practice) {
-  const seed = practice ? (Math.random() * 2 ** 31) | 0 : (dayNo * 2654435761) >>> 0;
+// Karty (herní režimy). Každá má vlastní sadu kategorií a vlastní denní ponor.
+const byId = id => CATS.find(c => c.id === id);
+const MODES = {
+  mix:  { label: 'Mix', title: 'Denní ponor', blurb: 'Všehochuť: zvířata, barvy, prohlížeče, prvky a další.',
+          cats: CATS.filter(c => !c.pack) },
+  geo:  { label: 'Zeměpis', title: 'Zeměpisný ponor', blurb: 'Státy, ostrovy, hory, moře, řeky a města z celého světa i od nás.',
+          cats: CATS.filter(c => c.pack === 'geo').concat(['eu-mimo', 'mesto-hl', 'reka', 'hora', 'mesto'].map(byId)) },
+  meme: { label: 'Memes CZ/SK', title: 'Memový ponor', blurb: 'Večerníčky, filmové hlášky, pohádky, dobroty, politici, youtubeři a slovenčina.',
+          cats: CATS.filter(c => c.pack === 'meme') },
+};
+const MODE_KEYS = Object.keys(MODES);
+
+function makeDive(dayNo, practice, mode = 'mix') {
+  const base = (dayNo * 2654435761) >>> 0;
+  const seed = practice ? (Math.random() * 2 ** 31) | 0 : mode === 'mix' ? base : (base ^ strHash(mode)) >>> 0;
   const rng = mulberry32(seed);
-  const idx = CATS.map((_, i) => i);
+  const pool = MODES[mode].cats;
+  const idx = pool.map((_, i) => i);
   for (let i = idx.length - 1; i > 0; i--) { const j = Math.floor(rng() * (i + 1)); [idx[i], idx[j]] = [idx[j], idx[i]]; }
-  const rounds = idx.slice(0, QUESTIONS).map(i => buildRound(seed, CATS[i]));
+  const rounds = idx.slice(0, QUESTIONS).map(i => buildRound(seed, pool[i]));
   const mu = rounds.reduce((a, r) => a + r.expected, 0);
   const sd = 60 + rng() * 25;
   const players = 8000 + Math.floor(rng() * 14000);
@@ -138,21 +152,50 @@ function makeDive(dayNo, practice) {
 // ---------- Stav ----------
 const dayNo = today();
 const diveNo = dayNo + 1;
-const SAVE_KEY = 'hlubina-v1-' + dayNo;
-let dive = makeDive(dayNo, false);
-let saved = store.get(SAVE_KEY) || { answers: [], current: -1, done: false };
+const saveKey = m => m === 'mix' ? 'hlubina-v1-' + dayNo : 'hlubina-v1-' + m + '-' + dayNo;
+let mode = store.get('hlubina-mode');
+if (!MODES[mode]) mode = 'mix';
+let dive = makeDive(dayNo, false, mode);
+let saved = loadSaved(mode);
 let practice = null; // { answers }
 
 function S() { return practice || saved; }
-function persist() { if (!practice) store.set(SAVE_KEY, saved); }
+function persist() { if (!practice) store.set(saveKey(mode), saved); }
 
-// Rozehraná otázka po obnovení stránky se počítá jako vypršený čas.
-if (!saved.done && saved.current >= 0 && saved.answers.length === saved.current) {
-  saved.answers.push({ input: '', idx: null, pts: 0, timeout: true });
-  saved.current = -1;
-  if (saved.answers.length >= QUESTIONS) saved.done = true;
-  persist();
+function loadSaved(m) {
+  const st = store.get(saveKey(m)) || { answers: [], current: -1, done: false };
+  // Rozehraná otázka po obnovení stránky se počítá jako vypršený čas.
+  if (!st.done && st.current >= 0 && st.answers.length === st.current) {
+    st.answers.push({ input: '', idx: null, pts: 0, timeout: true });
+    st.current = -1;
+    if (st.answers.length >= QUESTIONS) st.done = true;
+    store.set(saveKey(m), st);
+  }
+  return st;
 }
+
+function switchMode(m) {
+  mode = m; store.set('hlubina-mode', m);
+  practice = null;
+  dive = makeDive(dayNo, false, mode);
+  saved = loadSaved(mode);
+  if (saved.done) showResults();
+  else showIntro();
+  const tab = document.querySelector('.mode-tab[aria-selected="true"]');
+  if (tab) tab.focus();
+}
+
+function modeTabs() {
+  return `<nav class="modes" role="tablist" aria-label="Herní karty">${MODE_KEYS.map(k => {
+    const st = k === mode ? saved : store.get(saveKey(k));
+    const mark = st && st.done ? '<span class="mode-done" aria-label="dnes dohráno">✓</span>' : '';
+    return `<button class="mode-tab" role="tab" data-mode="${k}" aria-selected="${k === mode}">${MODES[k].label}${mark}</button>`;
+  }).join('')}</nav>`;
+}
+function bindTabs() {
+  document.querySelectorAll('.mode-tab').forEach(b => b.onclick = () => { if (b.dataset.mode !== mode || practice) switchMode(b.dataset.mode); });
+}
+const modeName = () => MODES[mode].label;
 
 // ---------- Pixelové sprity ----------
 const SPRITES = {
@@ -291,8 +334,10 @@ function showIntro() {
   setDepth(0);
   app.innerHTML = `
   ${header('Ponor #' + diveNo + ' · ' + esc(dateLabel()))}
+  ${modeTabs()}
   <section class="card intro">
-    <h1 class="title">Denní ponor</h1>
+    <h1 class="title">${MODES[mode].title}</h1>
+    <p class="mode-blurb">${MODES[mode].blurb}</p>
     <p class="lead">Sedm kategorií, na každou 20 sekund. Napiš <b>platnou</b> odpověď, kterou ostatní nenapíšou. Čím vzácnější odpověď, tím hlouběji se potopíš.</p>
     <ul class="tiers">
       ${tierRow('plankton', '5–20 b', 'běžná odpověď')}
@@ -307,15 +352,16 @@ function showIntro() {
       <button class="btn ghost" id="practice">Tréninkový ponor</button>
     </div>
   </section>`;
-  $('#start').onclick = () => { practice = null; dive = makeDive(dayNo, false); nextQuestion(); };
+  $('#start').onclick = () => { practice = null; dive = makeDive(dayNo, false, mode); nextQuestion(); };
   $('#practice').onclick = startPractice;
+  bindTabs();
 }
 function tierRow(t, pts, desc) {
   return `<li><span class="tier-ico">${spriteBox(t, 2)}</span><span class="tier-name" style="color:${TIERS[t].color}">${TIERS[t].name}</span><span class="tier-pts">${pts}</span><span class="tier-desc">${desc}</span></li>`;
 }
 function startPractice() {
   practice = { answers: [], current: -1, done: false };
-  dive = makeDive(dayNo, true);
+  dive = makeDive(dayNo, true, mode);
   nextQuestion();
 }
 
@@ -329,7 +375,7 @@ function nextQuestion() {
   const round = dive.rounds[qi];
   setDepth(totalPts());
   app.innerHTML = `
-  ${header((practice ? 'Trénink' : 'Ponor #' + diveNo) + ' · otázka ' + (qi + 1) + '/' + QUESTIONS)}
+  ${header(modeName() + ' · ' + (practice ? 'trénink' : 'ponor #' + diveNo) + ' · otázka ' + (qi + 1) + '/' + QUESTIONS)}
   <div class="progress">${dive.rounds.map((_, i) => `<span class="pip ${i < qi ? 'done ' + tierOf(st.answers[i].pts) : i === qi ? 'now' : ''}"></span>`).join('')}</div>
   <div class="gauge"><span>Hloubka</span><b>${meters(totalPts())}</b></div>
   <section class="card question">
@@ -408,7 +454,7 @@ function showReveal(qi) {
       <p class="share">Napsalo ji <b>${pf(share)} %</b> dnešních hráčů</p>`;
   }
   app.innerHTML = `
-  ${header((practice ? 'Trénink' : 'Ponor #' + diveNo) + ' · otázka ' + (qi + 1) + '/' + QUESTIONS)}
+  ${header(modeName() + ' · ' + (practice ? 'trénink' : 'ponor #' + diveNo) + ' · otázka ' + (qi + 1) + '/' + QUESTIONS)}
   <section class="card reveal tier-${tier}">
     <div class="qlabel">${esc(round.cat.q)}</div>
     <div class="catch">${spriteBox(tier, 4)}</div>
@@ -442,7 +488,8 @@ function showResults() {
   const zone = zoneOf(depth);
   setDepth(total);
   app.innerHTML = `
-  ${header(practice ? 'Tréninkový ponor' : 'Deník ponoru #' + diveNo + ' · ' + esc(dateLabel()))}
+  ${header((practice ? 'Tréninkový ponor' : 'Deník ponoru #' + diveNo + ' · ' + esc(dateLabel())) + ' · ' + modeName())}
+  ${modeTabs()}
   <section class="card result">
     <div class="score-row">
       <div><div class="qlabel">Skóre</div><div class="score">${total}<small> / 700</small></div></div>
@@ -488,7 +535,8 @@ function showResults() {
   $('#share').onclick = () => copyResult(total, better);
   $('#practice').onclick = startPractice;
   const home = $('#home');
-  if (home) home.onclick = () => { practice = null; dive = makeDive(dayNo, false); saved.done ? showResults() : showIntro(); };
+  if (home) home.onclick = () => switchMode(mode);
+  bindTabs();
   if (!practice) runCountdown();
 }
 
@@ -577,7 +625,7 @@ function selectLog(i) {
 
 function copyResult(total, better) {
   const st = S();
-  const txt = `HLUBINA ${practice ? 'trénink' : '#' + diveNo}\n${total} b · ${meters(total)}\n${st.answers.map(a => TIERS[tierOf(a.pts)].emoji).join('')}\nLepší než ${pf(better)} % hráčů`;
+  const txt = `HLUBINA ${modeName()} ${practice ? 'trénink' : '#' + diveNo}\n${total} b · ${meters(total)}\n${st.answers.map(a => TIERS[tierOf(a.pts)].emoji).join('')}\nLepší než ${pf(better)} % hráčů`;
   const done = ok => { $('#copied').textContent = ok ? 'Zkopírováno do schránky.' : txt; };
   try {
     navigator.clipboard.writeText(txt).then(() => done(true), () => done(false));
@@ -631,5 +679,5 @@ if (saved.done) showResults();
 else if (saved.answers.length > 0) nextQuestion();
 else showIntro();
 
-window.__hlubina = { CATS, matchAnswer, pointsFor, makeDive, tierOf };
+window.__hlubina = { CATS, MODES, matchAnswer, pointsFor, makeDive, tierOf };
 })();
