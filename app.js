@@ -57,9 +57,9 @@ const store = {
 
 // ---------- Vzácnost a body ----------
 const TIERS = {
-  none:     { name: 'Bez úlovku',   color: '#5a6b85', emoji: '⬛' },
-  plankton: { name: 'Plankton',     color: '#58e0c0', emoji: '🟦' },
-  medusa:   { name: 'Medúza',       color: '#c38bff', emoji: '🟪' },
+  none:     { name: 'Bez úlovku',   color: '#9bb3cf', emoji: '⬛' },
+  plankton: { name: 'Plankton',     color: '#7af5d8', emoji: '🟦' },
+  medusa:   { name: 'Medúza',       color: '#d2adff', emoji: '🟪' },
   angler:   { name: 'Lampovník',    color: '#ffd86b', emoji: '🟨' },
   pearl:    { name: 'Dumbo',       color: '#7ff9ff', emoji: '🐙' },
 };
@@ -157,63 +157,95 @@ if (!saved.done && saved.current >= 0 && saved.answers.length === saved.current)
 // ---------- Pixelové sprity ----------
 const SPRITES = {
   mascot: { rows: [
-    '......Y.......',
-    '.....YYY......',
-    '......Y.......',
-    '.......k......',
-    '....RRRRk.....',
-    '..RRRRRRRR...R',
-    '.RRRWbRRRRR.RR',
-    'RRRRbbRRRRRRRR',
-    'RwRwRwRRRRRRR.',
-    'RRRRRRRRRRRRRR',
-    '.RRRRRRRRR..RR',
-    '...RRRRR.....R',
-  ], pal: { R: '#e8402f', W: '#ffffff', b: '#140a0a', w: '#fff3d6', k: '#7a2a1c', Y: '#7ff9ff' } },
+    '...yYy............',
+    '...YYY............',
+    '...yYy............',
+    '....k.............',
+    '.....k............',
+    '......khhhh.......',
+    '....hhRRRRRRh.....',
+    '...hRRRRRRRRRR..rr',
+    '..hRWWRRRRRRRRRrRr',
+    '..RRWbRRRRRRRRRRRr',
+    '.RRRRRRRRRRRRRRRr.',
+    'RwRwRwRRRRRRRRRRRr',
+    'R.....RRRRRRRRrrRr',
+    'RwRwRwRRRRRRRrr.rr',
+    '.RRRRRRRRRRrrr....',
+    '...rrrrrrrr.......',
+  ], pal: { R: '#f0503a', r: '#b3301f', h: '#ff8a6a', W: '#ffffff', b: '#1a0c0c', w: '#fff3d6', k: '#7a2a1c', Y: '#7ff9ff', y: '#c9fdff' } },
   plankton: { rows: [
-    '..G....',
-    '.GGG...',
-    'GgGGGG.',
-    '.GGG.G.',
-    '..G...G',
-  ], pal: { G: '#58e0c0', g: '#0a2a2a' } },
+    'a.............',
+    '.a....GGG.....',
+    '..a..GhGGG....',
+    '...aGeGGGGG...',
+    '....GGGGGGGg..',
+    '....gGGGGGgg..',
+    '.....gGGGg..g.',
+    '......g.g....g',
+    '.....g...g....',
+    '....g.....g...',
+  ], pal: { G: '#7af5d8', g: '#34bfa0', h: '#d8fff4', e: '#0b2a2a', a: '#b8fff0' } },
   medusa: { rows: [
-    '.MMMMM.',
-    'MMmMMMM',
-    'MmMMMmM',
-    'MMMMMMM',
-    'M.M.M.M',
-    'M.M.M.M',
-    '.M.M.M.',
-    'M...M..',
-  ], pal: { M: '#c38bff', m: '#f1e2ff' } },
+    '....MMMMMM....',
+    '..MMllMMMMMM..',
+    '.MMlllMMMMMMM.',
+    '.MMllMMMMMMMM.',
+    'MMMMMMMMMMMMMM',
+    'MMMMMMMMMMMMMm',
+    'mMmMmMmMmMmMmm',
+    '.m.t..t..t.m..',
+    '.t..t.t.t..t..',
+    '..t.t..t.t.t..',
+    '.t..t..t..t...',
+    '..t..t.t..t...',
+    '.t...t..t..t..',
+    '..t......t....',
+  ], pal: { M: '#d2adff', m: '#9f72e6', l: '#f6eeff', t: '#bf98f5' } },
   angler: { rows: [
-    '....Y....',
-    '...YYY...',
-    '.....a...',
-    '..AAAAa..',
-    '.AAWAAAA.A',
-    'AAAAAAAAAA',
-    'AwAwAAAAA.',
-    '.AAAAAAA.A',
-  ], pal: { A: '#6b4fd1', a: '#3b2a7a', W: '#ffd86b', w: '#ffffff', Y: '#ffd86b' } },
+    '........yYy.....',
+    '........YYY.....',
+    '.........y......',
+    '........a.......',
+    '.......a........',
+    '...hhhhahh......',
+    '.hhAAAAAAAAh....',
+    'aAAAAAAAAWWAA...',
+    'aaAAAAAAAWbAAA..',
+    'aAAAAAAAAAAAAAA.',
+    'aaAAAAAAAAwAwAwA',
+    'aAAAAAAAAA.....A',
+    'aaAAAAAAAAwAwAwA',
+    '.aaaAAAAAAAAAAA.',
+    '...aaaaaaaaaa...',
+  ], pal: { A: '#957bf5', a: '#6248c4', h: '#c4b4ff', W: '#ffe07a', b: '#1a1030', w: '#ffffff', Y: '#ffd86b', y: '#fff6cc' } },
   pearl: { rows: [
-    '.E.CCC.E.',
-    'EECCCCCEE',
-    '.CCCCCCC.',
-    '.CWbCWbC.',
-    '.CCCCCCC.',
-    '..CCCCC..',
-    '.C.C.C.C.',
-    'C..C.C..C',
-  ], pal: { C: '#7ff9ff', E: '#2fd3c0', W: '#ffffff', b: '#03121c' } },
+    '.....CCCCCC.....',
+    '...CChhCCCCCC...',
+    'EE.ChhCCCCCCC.EE',
+    'EEECCCCCCCCCCEEE',
+    '.EECCCCCCCCCCEE.',
+    '..CCWWCCCCWWCC..',
+    '..CCWbCCCCWbCC..',
+    '..CCCCCCCCCCCC..',
+    '...cCCCCCCCCc...',
+    '..cCcCcCCcCcCc..',
+    '.cC.cC.cC.cC.cC.',
+    '.c..c..c..c..c..',
+    'c..c...c...c..c.',
+  ], pal: { C: '#94faff', c: '#45cbd9', h: '#e6ffff', E: '#5ce6d6', W: '#ffffff', b: '#03121c' } },
   none: { rows: [
-    '.ooo.',
-    'o...o',
-    'o.o.o',
-    'o...o',
-    '.ooo.',
-  ], pal: { o: '#5a6b85' } },
+    '...oooo...',
+    '.oo....oo.',
+    '.o.ll...o.',
+    'o.l......o',
+    'o........o',
+    'o........o',
+    'o........o',
+    '.o......o.',
+    '.oo....oo.',
+    '...oooo...',
+  ], pal: { o: '#9bb3cf', l: '#e6f0ff' } },
 };
 function spriteSVG(name, px, cx, cy) {
   const sp = SPRITES[name];
@@ -245,7 +277,7 @@ function setDepth(totalPts) {
 
 function header(sub) {
   return `<header class="top">
-    <div class="brand">${spriteBox('mascot', 3)}<span class="logo">HLUBINA</span></div>
+    <div class="brand">${spriteBox('mascot', 2)}<span class="logo">HLUBINA</span></div>
     <div class="sub">${sub}</div>
   </header>`;
 }
@@ -279,7 +311,7 @@ function showIntro() {
   $('#practice').onclick = startPractice;
 }
 function tierRow(t, pts, desc) {
-  return `<li><span class="tier-ico">${spriteBox(t, 3)}</span><span class="tier-name" style="color:${TIERS[t].color}">${TIERS[t].name}</span><span class="tier-pts">${pts}</span><span class="tier-desc">${desc}</span></li>`;
+  return `<li><span class="tier-ico">${spriteBox(t, 2)}</span><span class="tier-name" style="color:${TIERS[t].color}">${TIERS[t].name}</span><span class="tier-pts">${pts}</span><span class="tier-desc">${desc}</span></li>`;
 }
 function startPractice() {
   practice = { answers: [], current: -1, done: false };
@@ -379,7 +411,7 @@ function showReveal(qi) {
   ${header((practice ? 'Trénink' : 'Ponor #' + diveNo) + ' · otázka ' + (qi + 1) + '/' + QUESTIONS)}
   <section class="card reveal tier-${tier}">
     <div class="qlabel">${esc(round.cat.q)}</div>
-    <div class="catch">${spriteBox(tier, 6)}</div>
+    <div class="catch">${spriteBox(tier, 4)}</div>
     ${body}
     <div class="tier-badge" style="--tc:${TIERS[tier].color}">${TIERS[tier].name}</div>
     <div class="gain"><b>+${ans.pts} b</b><span>${meters(ans.pts)}</span></div>
@@ -491,7 +523,7 @@ function diveLogSVG() {
   let s = `<svg class="divelog" viewBox="0 0 ${W} ${H}" role="group" aria-label="Deník ponoru, sedm otázek">
   <defs>
     <linearGradient id="sea" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0" stop-color="#0f4c74"/><stop offset="0.25" stop-color="#0a2f52"/><stop offset="1" stop-color="#030a1a"/>
+      <stop offset="0" stop-color="#2a86b8"/><stop offset="0.25" stop-color="#17608f"/><stop offset="1" stop-color="#0a2c4f"/>
     </linearGradient>
     <filter id="glow" x="-80%" y="-80%" width="260%" height="260%"><feGaussianBlur stdDeviation="2.4" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
   </defs>
@@ -517,7 +549,7 @@ function diveLogSVG() {
       <rect x="${cx - colW / 2 + 1}" y="0" width="${colW - 2}" height="${H}" class="col-hit"/>
       <text x="${cx}" y="16" text-anchor="middle" class="qnum">Q${i + 1}</text>
       <line x1="${cx}" y1="${surf}" x2="${cx}" y2="${y}" stroke="${TIERS[t].color}" class="cable"/>
-      <g filter="url(#glow)">${spriteSVG(t, 2.6, cx, y)}</g>
+      <g filter="url(#glow)">${spriteSVG(t, 1.6, cx, y)}</g>
       <text x="${cx}" y="${Math.min(H - 4, y + 22)}" text-anchor="middle" class="pts" fill="${TIERS[t].color}">${a.pts}</text>
     </g>`;
   });
@@ -576,8 +608,8 @@ function runCountdown() {
   const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   let parts = [];
   function size() {
-    c.width = Math.ceil(window.innerWidth / 3); c.height = Math.ceil(window.innerHeight / 3);
-    parts = Array.from({ length: 70 }, () => ({ x: Math.random() * c.width, y: Math.random() * c.height, v: 2 + Math.random() * 6, a: 0.2 + Math.random() * 0.5 }));
+    c.width = Math.ceil(window.innerWidth / 2); c.height = Math.ceil(window.innerHeight / 2);
+    parts = Array.from({ length: 110 }, () => ({ x: Math.random() * c.width, y: Math.random() * c.height, v: 2 + Math.random() * 6, a: 0.2 + Math.random() * 0.5 }));
   }
   size(); window.addEventListener('resize', size);
   let last = performance.now();
