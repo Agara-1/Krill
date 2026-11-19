@@ -184,5 +184,18 @@ window.HLUBINA_CATEGORIES.push(
   Bedřich Mára|Mára; Alois Fábera|Fábera; Danny Smiřický|Smiřický; Pepik Hnátek|Hnátek; Petr Majer; Fantomas; Majka z Gurunu|Majka;
   František Koudelka|Koudelka; Krakonoš; Trautenberk; Kuba; Anče; Rumcajs; Manka; Popelka; Bajaja; Honza; Ježibaba; Lucifer; Belzebub;
   Petronela; Ruprecht; pan Tau; Malý Bobeš|Bobeš; Hurvínek; Spejbl; Mach; Šebestová; Jonatán; Mrázik`
+},
+{
+  id: 'sk-hrad', pack: 'geo', q: 'Hrad nebo zámek na Slovensku', hint: 'Slovenský hrad, zřícenina, zámek nebo kaštieľ.',
+  a: `Bratislavský hrad|Bratislavský; Spišský hrad|Spiš; Oravský hrad|Orava; Bojnický zámok|Bojnice|Bojnický zámek; Trenčiansky hrad|Trenčínský hrad|Trenčín;
+  Devín|hrad Devín; Čachtický hrad|Čachtice; Strečno; Beckov; Zvolenský zámok|Zvolen; Krásna Hôrka; Červený Kameň; Betliar; Smolenický zámok|Smolenice;
+  Kežmarský hrad|Kežmarok; Ľubovniansky hrad|Stará Ľubovňa; Šarišský hrad; Likava; Lietava; Budatín|Budatínsky hrad; Starý hrad; Uhrovec;
+  Topoľčiansky hrad; Topoľčianky|zámok Topoľčianky; Branč; Plavecký hrad; Modrý Kameň; Fiľakovský hrad|Fiľakovo; Divín; Šomoška; Muránsky hrad|Muráň;
+  Sitno; Pustý hrad; Revište; Ostrý Kameň; Pajštún; Dobrá Voda; Hrušovský hrad|Hrušov; Gýmeš; Oponický hrad|Oponice; Turniansky hrad|Turňa;
+  Slanský hrad; Zborov|Makovica; Kapušiansky hrad; Brekov; Vinné|Viniansky hrad; Sklabiňa; Blatnický hrad|Blatnica; Zniev; Lednica; Vršatec;
+  Košecký hrad; Tematín; Hričov; Súľov; Holíčsky zámok|Holíč; Hlohovecký zámok; Antol|Svätý Anton|kaštieľ Svätý Anton; Budmerice; Dolná Krupá;
+  Rusovce|Rusovský kaštieľ; Markušovce; Strážky; Hrad Jasov|Jasov; Čičva; Kamenica; Šášov; Liptovský hrad; Liptovský Hrádok; Banská Štiavnica|Starý zámok|Nový zámok;
+  Kremnický hrad|Kremnica; Ľupčiansky hrad|Slovenská Ľupča; Komárňanská pevnosť|Komárno; Leopoldov; Vígľaš|Vígľašský zámok; Halič|zámok Halič;
+  Fričovce; Bytčiansky zámok|Bytča; Galanta; Rákociho kaštieľ|Borša; Diviaky; Pezinský zámok|Pezinok; Stupava; Malacky; Moravany nad Váhom`
 }
 );
