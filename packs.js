@@ -156,5 +156,33 @@ window.HLUBINA_CATEGORIES.push(
   IMT Smile; Pražský výběr; Žlutý pes; Nightwork; Monkey Business; Mirai; Slza; Kali; Ektor; Paulie Garand; Řezník; Ondřej Ruml; Jelen;
   Pokáč; Vladimír Mišík; Mandrage; Xindl X; Tomáš Klus|Klus; Pavol Habera|Habera; Jana Kirschner; Katarína Knechtová; Adam Ďurica;
   Celeste Buckingham; Majself; Dara Rolins; Vašo Patejdl; Karol Duchoň; Marika Gombitová; Peter Lipa`
+},
+// ---------- Ručně sestavené kategorie (Česko a Slovensko) ----------
+{
+  id: 'kraj', pack: 'geo', q: 'Kraj v Česku nebo na Slovensku', hint: 'Vyšší územní celek: český kraj nebo slovenský kraj.',
+  a: `Jihomoravský kraj|Jihomoravský|Jižní Morava; Středočeský kraj|Středočeský; Moravskoslezský kraj|Moravskoslezský; Hlavní město Praha|Praha;
+  Jihočeský kraj|Jihočeský; Plzeňský kraj|Plzeňský; Olomoucký kraj|Olomoucký; Ústecký kraj|Ústecký; Liberecký kraj|Liberecký;
+  Královéhradecký kraj|Královéhradecký; Pardubický kraj|Pardubický; Zlínský kraj|Zlínský; Karlovarský kraj|Karlovarský;
+  Kraj Vysočina|Vysočina; Bratislavský kraj|Bratislavský; Košický kraj|Košický; Žilinský kraj|Žilinský; Prešovský kraj|Prešovský;
+  Banskobystrický kraj|Banskobystrický; Nitriansky kraj|Nitriansky|Nitranský kraj; Trnavský kraj|Trnavský; Trenčiansky kraj|Trenčiansky|Trenčínský kraj`
+},
+{
+  id: 'unesco', pack: 'geo', q: 'Památka UNESCO v Česku nebo na Slovensku', hint: 'Místo zapsané na Seznam světového dědictví UNESCO.',
+  a: `Historické centrum Prahy|Praha|Pražský hrad; Český Krumlov; Kutná Hora|chrám svaté Barbory|Sedlec; Lednicko-valtický areál|Lednice|Valtice;
+  Telč; Vila Tugendhat|Tugendhat; Litomyšl|zámek Litomyšl; Kroměříž|Zahrady a zámek v Kroměříži; Holašovice; Třebíč|bazilika svatého Prokopa|židovská čtvrť v Třebíči;
+  Zelená hora|poutní kostel svatého Jana Nepomuckého; Sloup Nejsvětější Trojice v Olomouci|Sloup Nejsvětější Trojice|Olomouc;
+  Krušnohorský hornický region|Krušnohoří; Kladruby nad Labem|hřebčín Kladruby; Žatec|krajina žateckého chmele; Karlovy Vary|Mariánské Lázně|Františkovy Lázně|Velké lázně Evropy;
+  Bukové pralesy|Jizerskohorské bučiny; Banská Štiavnica; Levoča|Spišský hrad|Spišská Kapitula|Žehra; Vlkolínec; Bardejov; Dobšinská ľadová jaskyňa|Jaskyne Slovenského krasu|Domica;
+  Drevené kostolíky|dřevěné kostely slovenských Karpat; Limes Romanus|Dunajský limes|Iža|Rusovce; Karpatské bukové pralesy|Poloniny; Žatecký chmel`
+},
+{
+  id: 'postava', pack: 'meme', q: 'Postava z kultovního českého filmu nebo seriálu', hint: 'Jméno nebo přezdívka postavy, kterou zná celá republika.',
+  a: `Švejk|Josef Švejk|dobrý voják Švejk; Jára Cimrman|Cimrman; Rumburak; Arabela; Saxana; Pan Tau; Limonádový Joe; major Zeman|Zeman;
+  Hliník|Rudolf Hliník; Kefalín; major Terazky|Terazky; Homolka; Saturnin; Hogo Fogo; Tornádo Lou; Otík|Otík Rákosník; Pávek|Karel Pávek;
+  Turek; doktor Skružný|Skružný; Kraus; Šebek; Josef Tkaloun|Tkaloun; Igor Hnízdo|Hnízdo; Škopková; Adam Bernau|Bernau; doktor Sova|Sova;
+  doktor Štrosmajer|Štrosmajer; Blažej; Anna Holubová; Evžen Huml|Huml; Štěpán Šafránek|Šafránek; Kendy; doktor Nadrchal|Nadrchal;
+  Bedřich Mára|Mára; Alois Fábera|Fábera; Danny Smiřický|Smiřický; Pepik Hnátek|Hnátek; Petr Majer; Fantomas; Majka z Gurunu|Majka;
+  František Koudelka|Koudelka; Krakonoš; Trautenberk; Kuba; Anče; Rumcajs; Manka; Popelka; Bajaja; Honza; Ježibaba; Lucifer; Belzebub;
+  Petronela; Ruprecht; pan Tau; Malý Bobeš|Bobeš; Hurvínek; Spejbl; Mach; Šebestová; Jonatán; Mrázik`
 }
 );

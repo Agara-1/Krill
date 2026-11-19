@@ -80,10 +80,16 @@ function pointsFor(share) {
 
 // ---------- Kategorie ----------
 const CATS = window.HLUBINA_CATEGORIES.map(c => {
-  const entries = c.a.split(';').map(x => x.trim()).filter(Boolean).map((raw, rank) => {
+  // Duplicitní zápisy (např. ruční a doplněný z Wikipedie) se sloučí do první položky.
+  const seen = new Set();
+  const entries = [];
+  for (const raw of c.a.split(';').map(x => x.trim()).filter(Boolean)) {
     const parts = raw.split('|').map(p => p.trim()).filter(Boolean);
-    return { name: parts[0], keys: [...new Set(parts.map(norm))], rank };
-  });
+    const keys = [...new Set(parts.map(norm))].filter(k => k && !seen.has(k));
+    if (!keys.length || seen.has(norm(parts[0]))) continue;
+    keys.forEach(k => seen.add(k));
+    entries.push({ name: parts[0], keys, rank: entries.length });
+  }
   return { ...c, entries };
 });
 
