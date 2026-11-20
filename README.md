@@ -11,9 +11,10 @@ Denní vědomostní „anti-kvíz“ do prohlížeče. Nevyhrává nejčastějš
 
 ## Karty
 
-Hra má tři karty. Každá má vlastní denní ponor a ukládá si vlastní výsledek:
+Hra má čtyři karty. Každá má vlastní denní ponor a ukládá si vlastní výsledek:
 - **Mix**: všehochuť z 21 kategorií,
 - **Zeměpis** (26 kategorií): hlavně Česko a Slovensko (okresy, kraje, hrady, zámky, rybníky a přehrady, pohoří, hory, řeky, lázně, části Prahy, města, UNESCO) a k tomu státy, ostrovy, hory, moře a řeky světa,
+- **Přísloví** (8 kategorií): zvířata, části těla, jídlo, lidé a řemesla, věci, příroda, čísla a vlastnosti z českých a slovenských přísloví. Hra bere jen slova, která v nějakém přísloví opravdu jsou, a ukáže to přísloví,
 - **Memes CZ/SK** (16 kategorií): večerníčky, seriály, herci, hokejisté, rappeři, kapely, hry Járy Cimrmana, filmy, pohádky, filmové postavy, dobroty, slovenská slova, politici, youtubeři a zpěváci.
 
 ## Bodování
@@ -48,6 +49,7 @@ Hra běží čistě v prohlížeči bez serveru. Podíly odpovědí a rozložen�
 - `app.js`: logika hry, bodování, grafy a deník ponoru
 - `data.js`: 21 kategorií karty Mix s platnými odpověďmi
 - `packs.js`: ručně sestavené kategorie karet Zeměpis a Memes CZ/SK
+- `prislovi.js`: karta Přísloví (z Wikicitátů a Wikislovníku, generuje `tools/build_prov.py`)
 - `wiki-data.js`: tisíce dalších odpovědí doplněných z české a slovenské Wikipedie (seřazené podle návštěvnosti nebo délky článku, nejznámější ručně navrch)
 - `schody/`: předchozí hra Krill Tower (běhání po schodech mrakodrapu)
 

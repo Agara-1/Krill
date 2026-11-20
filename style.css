@@ -114,7 +114,7 @@ body::after {
 .modes { display: flex; gap: 6px; }
 .mode-tab {
   flex: 1 1 0; min-width: 0;
-  font-family: var(--font-display); font-size: 9px; line-height: 1.5;
+  font-family: var(--font-display); font-size: 8px; line-height: 1.5;
   padding: 10px 6px; cursor: pointer; color: var(--muted);
   background: rgba(16, 58, 96, 0.6); border: 2px solid var(--panel-edge); border-bottom-width: 4px;
   display: flex; align-items: center; justify-content: center; gap: 6px; text-align: center;
@@ -164,6 +164,9 @@ form { display: flex; flex-wrap: wrap; gap: 10px; }
 .your { margin: 0; color: var(--muted); font-size: 18px; }
 .answer { margin: 0; font-family: var(--font-display); font-size: 16px; overflow-wrap: anywhere; }
 .share { margin: 0; }
+.proverb { margin: 0; font-style: italic; color: var(--cyan); max-width: 32ch; text-wrap: balance; }
+.proverb.small-p { max-width: none; font-size: 19px; }
+.d-note { display: block; color: var(--muted); font-size: 16px; font-style: italic; line-height: 1.15; }
 .big-msg { margin: 0; font-family: var(--font-display); font-size: 15px; color: var(--warn); }
 .tier-badge {
   font-family: var(--font-display); font-size: 11px; color: var(--tc);

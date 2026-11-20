@@ -84,11 +84,12 @@ const CATS = window.HLUBINA_CATEGORIES.map(c => {
   const seen = new Set();
   const entries = [];
   for (const raw of c.a.split(';').map(x => x.trim()).filter(Boolean)) {
-    const parts = raw.split('|').map(p => p.trim()).filter(Boolean);
+    const [body, note] = raw.split(' = ');
+    const parts = body.split('|').map(p => p.trim()).filter(Boolean);
     const keys = [...new Set(parts.map(norm))].filter(k => k && !seen.has(k));
     if (!keys.length || seen.has(norm(parts[0]))) continue;
     keys.forEach(k => seen.add(k));
-    entries.push({ name: parts[0], keys, rank: entries.length });
+    entries.push({ name: parts[0], keys, rank: entries.length, note: note ? note.trim() : '' });
   }
   return { ...c, entries };
 });
@@ -138,6 +139,8 @@ const MODES = {
           cats: CATS.filter(c => c.pack === 'geo').concat(['eu-mimo', 'mesto-hl', 'reka', 'hora', 'mesto'].map(byId)) },
   meme: { label: 'Memes CZ/SK', title: 'Memový ponor', blurb: 'Večerníčky, seriály, herci, hokejisté, rappeři, kapely, Cimrman, filmy, pohádky, dobroty a slovenčina.',
           cats: CATS.filter(c => c.pack === 'meme') },
+  prov: { label: 'Přísloví', title: 'Ponor do přísloví', blurb: 'Zvířata, jídlo, části těla, řemesla, věci, počasí, čísla a vlastnosti z českých a slovenských přísloví. Po odpovědi uvidíš přísloví, ve kterém se slovo objevuje.',
+          cats: CATS.filter(c => c.pack === 'prov') },
 };
 const MODE_KEYS = Object.keys(MODES);
 
@@ -296,23 +299,62 @@ const SPRITES = {
     '...oooo...',
   ], pal: { o: '#9bb3cf', l: '#e6f0ff' } },
 };
-function spriteSVG(name, px, cx, cy) {
+// Sprity se kreslí ve dvojnásobném rozlišení: zvětšení algoritmem EPX (Scale2x),
+// který vyhlazuje šikminy, a k tomu obrys a jemné světlo a stín.
+const OUTLINE = '#04121f';
+function shade(hex, f) {
+  const n = parseInt(hex.slice(1), 16);
+  const ch = [n >> 16, (n >> 8) & 255, n & 255].map(v => f > 0 ? v + (255 - v) * f : v * (1 + f));
+  return '#' + ch.map(v => Math.round(Math.max(0, Math.min(255, v))).toString(16).padStart(2, '0')).join('');
+}
+const HIRES = {};
+function hiRes(name) {
+  if (HIRES[name]) return HIRES[name];
   const sp = SPRITES[name];
   const h = sp.rows.length, w = Math.max(...sp.rows.map(r => r.length));
+  const at = (r, c) => (r < 0 || c < 0 || r >= h || c >= w) ? '.' : (sp.rows[r][c] || '.');
+  const W2 = w * 2 + 2, H2 = h * 2 + 2;
+  const g = Array.from({ length: H2 }, () => Array(W2).fill(null));
+  for (let r = 0; r < h; r++) for (let c = 0; c < w; c++) {
+    const P = at(r, c), A = at(r - 1, c), B = at(r, c + 1), C = at(r, c - 1), D = at(r + 1, c);
+    let p1 = P, p2 = P, p3 = P, p4 = P;
+    if (C === A && C !== D && A !== B) p1 = A;
+    if (A === B && A !== C && B !== D) p2 = B;
+    if (D === C && D !== B && C !== A) p3 = C;
+    if (B === D && B !== A && D !== C) p4 = D;
+    const put = (rr, cc, k) => { g[rr][cc] = sp.pal[k] || null; };
+    put(1 + r * 2, 1 + c * 2, p1); put(1 + r * 2, 2 + c * 2, p2);
+    put(2 + r * 2, 1 + c * 2, p3); put(2 + r * 2, 2 + c * 2, p4);
+  }
+  const filled = (r, c) => r >= 0 && c >= 0 && r < H2 && c < W2 && g[r][c] && g[r][c] !== OUTLINE;
+  const out = g.map((row, r) => row.map((col, c) => {
+    if (col) {
+      if (!filled(r - 1, c)) return shade(col, 0.28);
+      if (!filled(r + 1, c)) return shade(col, -0.3);
+      return col;
+    }
+    return (filled(r - 1, c) || filled(r + 1, c) || filled(r, c - 1) || filled(r, c + 1)) ? OUTLINE : null;
+  }));
+  return (HIRES[name] = { g: out, w: W2, h: H2 });
+}
+function spriteSVG(name, px, cx, cy) {
+  const { g, w, h } = hiRes(name);
   const x0 = cx - w * px / 2, y0 = cy - h * px / 2;
   let out = '';
-  sp.rows.forEach((row, r) => {
-    for (let c = 0; c < row.length; c++) {
-      const col = sp.pal[row[c]];
-      if (col) out += `<rect x="${x0 + c * px}" y="${y0 + r * px}" width="${px + 0.05}" height="${px + 0.05}" fill="${col}"/>`;
+  g.forEach((row, r) => {
+    for (let c = 0; c < w;) {
+      const col = row[c];
+      let e = c + 1;
+      while (e < w && row[e] === col) e++;
+      if (col) out += `<rect x="${(x0 + c * px).toFixed(2)}" y="${(y0 + r * px).toFixed(2)}" width="${((e - c) * px + 0.04).toFixed(2)}" height="${(px + 0.04).toFixed(2)}" fill="${col}"/>`;
+      c = e;
     }
   });
   return out;
 }
 function spriteBox(name, px) {
-  const sp = SPRITES[name];
-  const h = sp.rows.length, w = Math.max(...sp.rows.map(r => r.length));
-  return `<svg class="sprite" viewBox="0 0 ${w * px} ${h * px}" width="${w * px}" height="${h * px}" aria-hidden="true">${spriteSVG(name, px, w * px / 2, h * px / 2)}</svg>`;
+  const { w, h } = hiRes(name);
+  return `<svg class="sprite" viewBox="0 0 ${w * px} ${h * px}" width="${w * px}" height="${h * px}" aria-hidden="true" shape-rendering="crispEdges">${spriteSVG(name, px, w * px / 2, h * px / 2)}</svg>`;
 }
 
 // ---------- Obrazovky ----------
@@ -326,7 +368,7 @@ function setDepth(totalPts) {
 
 function header(sub) {
   return `<header class="top">
-    <div class="brand">${spriteBox('mascot', 2)}<span class="logo">HLUBINA</span></div>
+    <div class="brand">${spriteBox('mascot', 1)}<span class="logo">HLUBINA</span></div>
     <div class="sub">${sub}</div>
   </header>`;
 }
@@ -363,7 +405,7 @@ function showIntro() {
   bindTabs();
 }
 function tierRow(t, pts, desc) {
-  return `<li><span class="tier-ico">${spriteBox(t, 2)}</span><span class="tier-name" style="color:${TIERS[t].color}">${TIERS[t].name}</span><span class="tier-pts">${pts}</span><span class="tier-desc">${desc}</span></li>`;
+  return `<li><span class="tier-ico">${spriteBox(t, 1)}</span><span class="tier-name" style="color:${TIERS[t].color}">${TIERS[t].name}</span><span class="tier-pts">${pts}</span><span class="tier-desc">${desc}</span></li>`;
 }
 function startPractice() {
   practice = { answers: [], current: -1, done: false };
@@ -457,13 +499,14 @@ function showReveal(qi) {
     body = `
       <p class="your">Tvoje odpověď</p>
       <p class="answer">${esc(e.name)}</p>
-      <p class="share">Napsalo ji <b>${pf(share)} %</b> dnešních hráčů</p>`;
+      <p class="share">Napsalo ji <b>${pf(share)} %</b> dnešních hráčů</p>
+      ${e.note ? `<p class="proverb">„${esc(e.note)}“</p>` : ''}`;
   }
   app.innerHTML = `
   ${header(modeName() + ' · ' + (practice ? 'trénink' : 'ponor #' + diveNo) + ' · otázka ' + (qi + 1) + '/' + QUESTIONS)}
   <section class="card reveal tier-${tier}">
     <div class="qlabel">${esc(round.cat.q)}</div>
-    <div class="catch">${spriteBox(tier, 4)}</div>
+    <div class="catch">${spriteBox(tier, 2)}</div>
     ${body}
     <div class="tier-badge" style="--tc:${TIERS[tier].color}">${TIERS[tier].name}</div>
     <div class="gain"><b>+${ans.pts} b</b><span>${meters(ans.pts)}</span></div>
@@ -603,7 +646,7 @@ function diveLogSVG() {
       <rect x="${cx - colW / 2 + 1}" y="0" width="${colW - 2}" height="${H}" class="col-hit"/>
       <text x="${cx}" y="16" text-anchor="middle" class="qnum">Q${i + 1}</text>
       <line x1="${cx}" y1="${surf}" x2="${cx}" y2="${y}" stroke="${TIERS[t].color}" class="cable"/>
-      <g filter="url(#glow)">${spriteSVG(t, 1.6, cx, y)}</g>
+      <g filter="url(#glow)">${spriteSVG(t, 0.8, cx, y)}</g>
       <text x="${cx}" y="${Math.min(H - 4, y + 22)}" text-anchor="middle" class="pts" fill="${TIERS[t].color}">${a.pts}</text>
     </g>`;
   });
@@ -620,12 +663,12 @@ function selectLog(i) {
   const top = order[order.length - 1];
   const yours = a.timeout
     ? `<p>Čas vypršel${a.input ? ` (rozepsáno: „${esc(a.input)}“)` : ''}.</p>`
-    : `<p>Tvoje odpověď: <b>${esc(round.cat.entries[a.idx].name)}</b>, ${pf(round.shares[a.idx])} % hráčů.</p>`;
+    : `<p>Tvoje odpověď: <b>${esc(round.cat.entries[a.idx].name)}</b>, ${pf(round.shares[a.idx])} % hráčů.</p>${round.cat.entries[a.idx].note ? `<p class="proverb small-p">„${esc(round.cat.entries[a.idx].note)}“</p>` : ''}`;
   $('#detail').innerHTML = `
     <div class="d-head"><span class="d-q">Q${i + 1} · ${esc(round.cat.q)}</span><span class="d-tier" style="color:${TIERS[t].color}">${TIERS[t].name} · ${a.pts} b</span></div>
     ${yours}
     <p class="d-sub">Nejvzácnější platné odpovědi</p>
-    <ul class="d-list">${rare.map(k => `<li><span>${esc(round.cat.entries[k].name)}</span><span>${pf(round.shares[k])} % · ${round.pts[k]} b</span></li>`).join('')}</ul>
+    <ul class="d-list">${rare.map(k => `<li><span>${esc(round.cat.entries[k].name)}${round.cat.entries[k].note ? `<small class="d-note">„${esc(round.cat.entries[k].note)}“</small>` : ''}</span><span>${pf(round.shares[k])} % · ${round.pts[k]} b</span></li>`).join('')}</ul>
     <p class="small">Nejčastější: ${esc(round.cat.entries[top].name)} (${pf(round.shares[top])} %, ${round.pts[top]} b)</p>`;
 }
 
